@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "installations": {
+    "react-bits:scroll-reveal": {
+      "id": "react-bits:scroll-reveal",
+      "variant": "TS-TW",
+      "revision": "d86fccbd477786f94ca7eb891fbe0ec039d3cd3b",
+      "sourceFingerprint": "997af8f1563c7381b40ac378a3075c7eadb72f4c543825fbccba6e419a4bf161",
+      "files": [
+        {
+          "path": "components/react-bits/ScrollReveal/ScrollReveal.tsx",
+          "sha256": "bfabb87b161341c7bafd0fa7c8c9101c94be6c5de4854e7a4788b4f77c24d6d3"
+        },
+        {
+          "path": ".premium-frontend/licences/react-bits-d86fccbd477786f94ca7eb891fbe0ec039d3cd3b.md",
+          "sha256": "f4c33af6739191537738662d223b68d77bc226f4b57ea883e16481d8cc5c73c9"
+        }
+      ],
+      "licence": "https://github.com/DavidHDev/react-bits/blob/d86fccbd477786f94ca7eb891fbe0ec039d3cd3b/LICENSE.md"
+    },
+    "react-bits:logo-loop": {
+      "id": "react-bits:logo-loop",
+      "variant": "TS-TW",
+      "revision": "d86fccbd477786f94ca7eb891fbe0ec039d3cd3b",
+      "sourceFingerprint": "1297d0db36cbb54750c1de8964495a09b5dad6544616a46473350cc15654cf85",
+      "files": [
+        {
+          "path": "components/react-bits/LogoLoop/LogoLoop.tsx",
+          "sha256": "588945901918bc9fe0f60c3e19c0161af89af935b62fb349863d7998aa3b04cc"
+        },
+        {
+          "path": ".premium-frontend/licences/react-bits-d86fccbd477786f94ca7eb891fbe0ec039d3cd3b.md",
+          "sha256": "f4c33af6739191537738662d223b68d77bc226f4b57ea883e16481d8cc5c73c9"
+        }
+      ],
+      "licence": "https://github.com/DavidHDev/react-bits/blob/d86fccbd477786f94ca7eb891fbe0ec039d3cd3b/LICENSE.md"
+    },
+    "react-bits:flowing-menu": {
+      "id": "react-bits:flowing-menu",
+      "variant": "TS-TW",
+      "revision": "d86fccbd477786f94ca7eb891fbe0ec039d3cd3b",
+      "sourceFingerprint": "dda3b4544d3955b4aa01d93f9d77bd3be22f16abe04e597e7a27f0daea3309e8",
+      "files": [
+        {
+          "path": "components/react-bits/FlowingMenu/FlowingMenu.tsx",
+          "sha256": "61a6b36efdf1a3383f31140328213d2dba85afb8e434501d8b11345a0f3cc277"
+        },
+        {
+          "path": ".premium-frontend/licences/react-bits-d86fccbd477786f94ca7eb891fbe0ec039d3cd3b.md",
+          "sha256": "f4c33af6739191537738662d223b68d77bc226f4b57ea883e16481d8cc5c73c9"
+        }
+      ],
+      "licence": "https://github.com/DavidHDev/react-bits/blob/d86fccbd477786f94ca7eb891fbe0ec039d3cd3b/LICENSE.md"
+    },
+    "react-bits:accordion-gallery": {
+      "id": "react-bits:accordion-gallery",
+      "variant": "TS-TW",
+      "revision": "d86fccbd477786f94ca7eb891fbe0ec039d3cd3b",
+      "sourceFingerprint": "853cf41738beec9bf93a531486513c1edd4d90b439a5be47c59a735e38fa64c9",
+      "files": [
+        {
+          "path": "components/react-bits/AccordionGallery/AccordionGallery.tsx",
+          "sha256": "e2412a8d475434edeeba17250eb137b9c91312ee78596d8fe37af4170478598d"
+        },
+        {
+          "path": ".premium-frontend/licences/react-bits-d86fccbd477786f94ca7eb891fbe0ec039d3cd3b.md",
+          "sha256": "f4c33af6739191537738662d223b68d77bc226f4b57ea883e16481d8cc5c73c9"
+        }
+      ],
+      "licence": "https://github.com/DavidHDev/react-bits/blob/d86fccbd477786f94ca7eb891fbe0ec039d3cd3b/LICENSE.md"
+    }
+  }
+}

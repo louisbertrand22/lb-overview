@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/*
+ * "Schéma directeur": tracing paper, navy ink, one signal red.
+ * Navy nods to "Nuit de Circuit", the palette of louis-bertrand.fr.
+ */
+@theme {
+  --color-paper: #f2f1ec;
+  --color-paper-2: #e9e7e0;
+  --color-rule: #cfccc2;
+  --color-ink: #0b1f33;
+  --color-ink-2: #12304d;
+  --color-ink-soft: #4e5d6c;
+  --color-mute: #6f7a85;
+  --color-signal: #e1251b;
+  --color-live: #2fbf71;
+  --color-night: #081726;
+  --color-night-rule: #1f3a55;
+  --color-night-text: #dfe6ec;
+
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-paper);
+    min-height: 100svh;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+
+  /* Expanded grotesk for display, uppercase like a drawing title block */
+  .display {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+  }
+
+  .heading {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .gutter {
+    padding-inline: clamp(1rem, 4vw, 3.5rem);
+  }
+
+  .rule {
+    border-color: var(--color-rule);
+  }
+
+  /* Blueprint grid, used behind the hero diagram */
+  .blueprint {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 7%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .link-line {
+    background-image: linear-gradient(var(--color-signal), var(--color-signal));
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s var(--ease-out-expo);
+  }
+  .link-line:hover,
+  .link-line:focus-visible {
+    background-size: 100% 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
