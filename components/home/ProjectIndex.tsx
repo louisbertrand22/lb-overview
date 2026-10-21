@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { projects, t, worlds } from "@/content/projects";
+import { featuredSlugs, projects, t, worlds } from "@/content/projects";
 import type { Dictionary, Locale } from "@/lib/i18n";
 
-/** Compact register: one block per world, one line per project, so the home page stays short as projects pile up. */
+/** Compact register of the projects not already featured above: one block per world, one line per project. */
+const featured: readonly string[] = featuredSlugs;
+const others = projects.filter((p) => !featured.includes(p.slug));
+const groups = worlds.map((world) => ({ world, items: others.filter((p) => p.world === world.id) })).filter((g) => g.items.length > 0);
+
 export default function ProjectIndex({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section className="py-[clamp(5rem,14vh,9rem)]" aria-labelledby="index-title">
@@ -13,9 +17,8 @@ export default function ProjectIndex({ locale, dict }: { locale: Locale; dict: D
         </h2>
       </div>
 
-      <div className="gutter grid gap-x-10 gap-y-14 lg:grid-cols-2">
-        {worlds.map((world, i) => {
-          const items = projects.filter((p) => p.world === world.id);
+      <div className="gutter grid gap-x-10 gap-y-14 lg:grid-cols-3">
+        {groups.map(({ world, items }, i) => {
           return (
             <div key={world.id}>
               <div className="border-b-2 border-ink pb-3">
@@ -36,7 +39,7 @@ export default function ProjectIndex({ locale, dict }: { locale: Locale; dict: D
                       <span className="font-mono text-xs tracking-[0.08em] text-signal">{p.code}</span>
                       <span className="min-w-0">
                         <span className="heading block text-[clamp(1.1rem,1.5vw,1.35rem)] uppercase">{p.title}</span>
-                        <span className="mt-1 line-clamp-1 text-sm text-ink-soft transition-colors duration-300 group-hover:text-paper/70 max-md:hidden">
+                        <span className="mt-1 line-clamp-2 text-sm text-ink-soft transition-colors duration-300 group-hover:text-paper/70 max-md:hidden">
                           {t(p.tagline, locale)}
                         </span>
                       </span>
