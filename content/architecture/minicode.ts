@@ -12,8 +12,8 @@ export const minicodeArchitecture: Architecture = {
     },
   },
   intro: {
-    fr: "Un agent de code dans le terminal, façon Claude Code, écrit à la main en Python sans framework d'agent. Le modèle ne fait que demander des outils ; tout le reste est le harness : la boucle qui le rappelle, les outils qui agissent sur le projet, les permissions qui décident, la gestion d'une fenêtre de 8 192 tokens, les sous-agents et un journal de chaque appel. Il tourne gratuitement en local avec Ollama (qwen3:8b) ou avec l'API Claude, par le même SDK.",
-    en: "A coding agent in the terminal, in the style of Claude Code, handwritten in Python with no agent framework. The model only asks for tools; everything else is the harness: the loop that calls it again, the tools that act on the project, the permissions that decide, the handling of an 8,192-token window, sub-agents and a log of every call. It runs for free locally with Ollama (qwen3:8b) or on the Claude API, through the same SDK.",
+    fr: "Un agent de code dans le terminal, façon Claude Code, écrit à la main en Python sans framework d'agent. Le modèle ne fait que demander des outils ; tout le reste est le harness : la boucle qui le rappelle, les outils qui agissent sur le projet, les permissions qui décident, la gestion d'une fenêtre de 8 192 tokens, les sous-agents et un journal de chaque appel. Il tourne gratuitement en local, avec Ollama et qwen3:8b.",
+    en: "A coding agent in the terminal, in the style of Claude Code, handwritten in Python with no agent framework. The model only asks for tools; everything else is the harness: the loop that calls it again, the tools that act on the project, the permissions that decide, the handling of an 8,192-token window, sub-agents and a log of every call. It runs for free locally, with Ollama and qwen3:8b.",
   },
   facts: [
     { value: "2 343", label: { fr: "lignes de Python, hors tests et évals", en: "lines of Python, excluding tests and evals" } },
@@ -75,8 +75,7 @@ export const minicodeArchitecture: Architecture = {
     },
   ],
   services: [
-    { name: "Ollama · qwen3:8b", detail: { fr: "Par défaut, local et gratuit", en: "Default, local and free" } },
-    { name: "API Claude", detail: { fr: "MINICODE_PROVIDER=anthropic", en: "MINICODE_PROVIDER=anthropic" } },
+    { name: "Ollama · qwen3:8b", detail: { fr: "Local et gratuit, sur la carte graphique", en: "Local and free, on the GPU" } },
   ],
   principles: [
     {
@@ -203,7 +202,7 @@ export const minicodeArchitecture: Architecture = {
     {
       group: { fr: "Bibliothèques", en: "Libraries" },
       rows: [
-        { tech: "anthropic", version: "1.10.0", role: { fr: "Un seul client pour Ollama et l'API Claude, en streaming", en: "One client for both Ollama and the Claude API, streamed" } },
+        { tech: "anthropic", version: "1.10.0", role: { fr: "Client du serveur Ollama, en streaming", en: "Client for the Ollama server, streamed" } },
         { tech: "rich", version: "15.0.0", role: { fr: "Affichage : Markdown, diff, panneaux", en: "Display: Markdown, diff, panels" } },
         { tech: "prompt_toolkit", version: "3.0.53", role: { fr: "Saisie, historique, complétion des commandes", en: "Input, history, command completion" } },
       ],
@@ -212,8 +211,7 @@ export const minicodeArchitecture: Architecture = {
       group: { fr: "Modèles", en: "Models" },
       rows: [
         { tech: "Ollama", version: "—", role: { fr: "Serveur local, API compatible avec le SDK Anthropic", en: "Local server, API compatible with the Anthropic SDK" } },
-        { tech: "qwen3:8b", version: "—", role: { fr: "Modèle par défaut, ~5 Go, testé sur 8 Go de VRAM", en: "Default model, ~5 GB, tested on 8 GB of VRAM" } },
-        { tech: "Claude Opus 5.5", version: "—", role: { fr: "Modèle par défaut avec l'API Claude", en: "Default model on the Claude API" } },
+        { tech: "qwen3:8b", version: "—", role: { fr: "Le modèle utilisé, ~5 Go, sur 8 Go de VRAM", en: "The model used, ~5 GB, on 8 GB of VRAM" } },
       ],
     },
   ],

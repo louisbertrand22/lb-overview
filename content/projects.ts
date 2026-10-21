@@ -512,8 +512,8 @@ export const projects: Project[] = [
       en: "A coding agent in the terminal, handwritten to understand the harness",
     },
     summary: {
-      fr: "Un mini Claude Code en Python, sans framework d'agent. Tout le code autour du modèle est écrit à la main : la boucle d'agent, 8 outils dont des sessions interactives dans un pseudo-terminal, des permissions allow / deny, la gestion d'une fenêtre de 8 192 tokens, des sous-agents en lecture seule, un journal JSONL de chaque appel et 13 tâches d'évals. Il tourne en local et gratuitement avec Ollama et qwen3:8b, ou avec l'API Claude.",
-      en: "A mini Claude Code in Python, with no agent framework. All the code around the model is handwritten: the agent loop, 8 tools including interactive sessions in a pseudo-terminal, allow / deny permissions, handling of an 8,192-token window, read-only sub-agents, a JSONL log of every call and 13 eval tasks. It runs locally and for free with Ollama and qwen3:8b, or on the Claude API.",
+      fr: "Un mini Claude Code en Python, sans framework d'agent. Tout le code autour du modèle est écrit à la main : la boucle d'agent, 8 outils dont des sessions interactives dans un pseudo-terminal, des permissions allow / deny, la gestion d'une fenêtre de 8 192 tokens, des sous-agents en lecture seule, un journal JSONL de chaque appel et 13 tâches d'évals. Il tourne en local et gratuitement, avec Ollama et qwen3:8b.",
+      en: "A mini Claude Code in Python, with no agent framework. All the code around the model is handwritten: the agent loop, 8 tools including interactive sessions in a pseudo-terminal, allow / deny permissions, handling of an 8,192-token window, read-only sub-agents, a JSONL log of every call and 13 eval tasks. It runs locally and for free, with Ollama and qwen3:8b.",
     },
     highlights: {
       fr: [
