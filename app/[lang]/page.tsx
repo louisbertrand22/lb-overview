@@ -8,6 +8,7 @@ import StackLoop from "@/components/home/StackLoop";
 import Path from "@/components/home/Path";
 import OffDuty from "@/components/home/OffDuty";
 import Contact from "@/components/home/Contact";
+import { SiteJsonLd } from "@/components/seo/JsonLd";
 
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
@@ -16,6 +17,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
   return (
     <>
+      <SiteJsonLd locale={lang} />
       <Hero locale={lang} dict={dict} />
       <Manifesto dict={dict} />
       <Featured locale={lang} dict={dict} />

@@ -8,6 +8,7 @@ import Gallery from "@/components/detail/Gallery";
 import PhoneGallery from "@/components/detail/PhoneGallery";
 import Cover from "@/components/work/Cover";
 import Architecture from "@/components/detail/Architecture";
+import { ProjectJsonLd } from "@/components/seo/JsonLd";
 
 /** Everything that depends on the URL lives here, behind the page's Suspense boundary. */
 export default async function ProjectDetail({ params }: Pick<PageProps<"/[lang]/work/[slug]">, "params">) {
@@ -22,6 +23,7 @@ export default async function ProjectDetail({ params }: Pick<PageProps<"/[lang]/
 
   return (
     <article className="pt-28 md:pt-32">
+      <ProjectJsonLd project={project} locale={lang} />
       <header className="gutter">
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.08em] text-mute">
           <Link href={`/${lang}/work`} className="link-line py-1 text-ink">

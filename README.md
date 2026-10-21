@@ -24,7 +24,7 @@ npm run build
 
 | Path | Role |
 | --- | --- |
-| `content/projects.ts` | Single source of truth: 16 projects, worlds, system map, experience, hobbies, all copy in FR and EN |
+| `content/projects.ts` | Single source of truth: 14 projects, worlds, system map, experience, hobbies, all copy in FR and EN |
 | `lib/i18n.ts` | Locales and UI dictionary |
 | `proxy.ts` | Redirects locale-less URLs to `/fr` or `/en` |
 | `app/[lang]/` | Home, `/work` showcase, `/work/[slug]` detail template (all prerendered) |
@@ -39,5 +39,19 @@ Add an entry to `projects` in `content/projects.ts` (FR and EN copy), and drop a
 
 ## Deploy
 
-Import the repository in Vercel. No environment variables are required; `vercel.json` pins the
-framework, install and build commands and adds security and asset caching headers.
+Import the repository in Vercel. No environment variables are required on Vercel: the canonical
+origin comes from the production domain. On any other host, set `SITE_URL` (see `.env.example`).
+`vercel.json` pins the framework, install and build commands and adds security and asset caching
+headers. `.github/workflows/ci.yml` runs lint, typecheck and build on pushes to `main` and on pull
+requests, with the Node version from `.nvmrc`.
+
+## SEO
+
+| File | Output |
+| --- | --- |
+| `app/[lang]/layout.tsx` and each page's `generateMetadata` | Title, description, canonical, hreflang (`fr`, `en`, `x-default`), Open Graph |
+| `app/**/opengraph-image.tsx` + `lib/og.tsx` | 1200 × 630 share cards for home, `/work` and every project, prerendered with the fonts in `assets/fonts/` |
+| `components/seo/JsonLd.tsx` | schema.org `Person` + `WebSite` on home, `SoftwareSourceCode`/`CreativeWork` + `BreadcrumbList` on projects |
+| `app/sitemap.ts`, `app/robots.ts` | `/sitemap.xml` with language alternates, `/robots.txt` |
+| `app/manifest.ts` | `/manifest.webmanifest` |
+| `app/llms.txt/route.ts` | `/llms.txt`, a plain-text map of the site for AI assistants |

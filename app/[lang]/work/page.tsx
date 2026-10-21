@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "@/lib/i18n";
+import { languageAlternates, ogLocale } from "@/lib/site";
 import WorkGrid from "@/components/work/WorkGrid";
 import Reveal from "@/components/motion/Reveal";
 
@@ -11,7 +12,15 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work">): P
   return {
     title: dict.work.title,
     description: dict.work.intro,
-    alternates: { canonical: `/${lang}/work`, languages: { fr: "/fr/work", en: "/en/work" } },
+    alternates: { canonical: `/${lang}/work`, languages: languageAlternates("/work") },
+    openGraph: {
+      type: "website",
+      siteName: "Louis Bertrand",
+      title: `${dict.work.title} · Louis Bertrand`,
+      description: dict.work.intro,
+      locale: ogLocale(lang),
+      url: `/${lang}/work`,
+    },
   };
 }
 

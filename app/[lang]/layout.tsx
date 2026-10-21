@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { fontVariables } from "../fonts";
 import { getDictionary, hasLocale, locales } from "@/lib/i18n";
-import { siteUrl } from "@/lib/site";
+import { author, languageAlternates, ogLocale, siteUrl } from "@/lib/site";
 import Nav from "@/components/chrome/Nav";
 import Footer from "@/components/chrome/Footer";
 import SmoothScroll from "@/components/chrome/SmoothScroll";
@@ -25,14 +25,18 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     metadataBase: new URL(siteUrl),
     title: { default: dict.meta.title, template: `%s · Louis Bertrand` },
     description: dict.meta.description,
-    authors: [{ name: "Louis Bertrand", url: "https://louis-bertrand.fr" }],
-    alternates: { canonical: `/${lang}`, languages: { fr: "/fr", en: "/en" } },
+    applicationName: "Louis Bertrand",
+    authors: [{ name: author.name, url: author.url }],
+    creator: author.name,
+    alternates: { canonical: `/${lang}`, languages: languageAlternates("") },
     openGraph: {
       type: "website",
       siteName: "Louis Bertrand",
       title: dict.meta.title,
       description: dict.meta.description,
-      locale: lang === "fr" ? "fr_FR" : "en_US",
+      locale: ogLocale(lang),
+      alternateLocale: locales.filter((l) => l !== lang).map(ogLocale),
+      url: `/${lang}`,
     },
     twitter: { card: "summary_large_image", title: dict.meta.title, description: dict.meta.description },
   };

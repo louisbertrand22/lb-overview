@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { hasLocale, locales } from "@/lib/i18n";
 import { getProject, projects, t } from "@/content/projects";
+import { languageAlternates, ogLocale } from "@/lib/site";
 import ProjectDetail from "@/components/detail/ProjectDetail";
 
 export function generateStaticParams() {
@@ -15,11 +16,17 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[slug
   return {
     title: project.title,
     description: t(project.tagline, lang),
-    alternates: {
-      canonical: `/${lang}/work/${slug}`,
-      languages: { fr: `/fr/work/${slug}`, en: `/en/work/${slug}` },
+    keywords: project.stack,
+    alternates: { canonical: `/${lang}/work/${slug}`, languages: languageAlternates(`/work/${slug}`) },
+    // The image comes from the colocated opengraph-image.tsx
+    openGraph: {
+      type: "article",
+      siteName: "Louis Bertrand",
+      title: `${project.title} · Louis Bertrand`,
+      description: t(project.tagline, lang),
+      locale: ogLocale(lang),
+      url: `/${lang}/work/${slug}`,
     },
-    openGraph: project.shots ? { images: [{ url: project.shots[0].src }] } : undefined,
   };
 }
 
