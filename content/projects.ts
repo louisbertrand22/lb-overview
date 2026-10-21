@@ -499,50 +499,6 @@ export const projects: Project[] = [
     stack: ["Rust", "POSIX"],
     repo: "https://github.com/louisbertrand22/MiniShell_Rust",
   },
-  {
-    slug: "footysim",
-    code: "FSIM",
-    title: "FootySim",
-    world: "systems",
-    tagline: {
-      fr: "Un simulateur de championnat de football en ligne de commande",
-      en: "A command-line football championship simulator",
-    },
-    summary: {
-      fr: "Simulateur de championnat de football avec ORM SQLAlchemy et opérations de base de données asynchrones : calendrier, simulation de saison, classement et meilleurs buteurs depuis la ligne de commande.",
-      en: "Football championship simulator with SQLAlchemy ORM and async database operations: schedule, season simulation, standings and top scorers from the command line.",
-    },
-    highlights: {
-      fr: ["ORM SQLAlchemy et accès base asynchrone", "Migrations Alembic", "CLI : calendrier, saison, classement, buteurs"],
-      en: ["SQLAlchemy ORM with async database access", "Alembic migrations", "CLI: schedule, season, table, top scorers"],
-    },
-    role: { fr: "Développement", en: "Development" },
-    context: { fr: "Projet personnel", en: "Personal project" },
-    stack: ["Python", "SQLAlchemy", "Alembic", "CLI"],
-    repo: "https://github.com/louisbertrand22/FootySim",
-  },
-  {
-    slug: "footysim-backend",
-    code: "FAPI",
-    title: "FootySim API",
-    world: "systems",
-    tagline: {
-      fr: "L'API REST asynchrone derrière le simulateur",
-      en: "The async REST API behind the simulator",
-    },
-    summary: {
-      fr: "API REST backend construite avec FastAPI et SQLAlchemy asynchrone pour la simulation de championnat de football.",
-      en: "REST API backend built with FastAPI and async SQLAlchemy for football championship simulation.",
-    },
-    highlights: {
-      fr: ["FastAPI et SQLAlchemy asynchrone", "Endpoints de classement et de simulation"],
-      en: ["FastAPI with async SQLAlchemy", "Standings and simulation endpoints"],
-    },
-    role: { fr: "Développement", en: "Development" },
-    context: { fr: "Projet personnel", en: "Personal project" },
-    stack: ["FastAPI", "SQLAlchemy", "Python", "REST API"],
-    repo: "https://github.com/louisbertrand22/FootySim-backend",
-  },
 ];
 
 export const featuredSlugs = ["magiccards", "mysso", "quarto", "chickenstude", "sudoku-ocr"] as const;
