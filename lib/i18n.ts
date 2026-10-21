@@ -31,7 +31,7 @@ const dictionaries = {
     },
     manifestoLabel: "Approche",
     manifesto:
-      "Du schéma directeur au cluster Kubernetes, je conçois des systèmes que les équipes peuvent exploiter et que les métiers comprennent. Je mène des produits jusqu'en production, et je pilote les projets qui les rendent possibles",
+      "Je relie la stratégie et la technique : du schéma directeur au déploiement sur Kubernetes, je construis des systèmes fiables, simples à exploiter et clairs pour ceux qui les utilisent. Mon objectif : que chaque produit arrive en production, et y reste",
     featured: {
       label: "En production",
       title: "Produits livrés",
@@ -113,7 +113,7 @@ const dictionaries = {
     },
     manifestoLabel: "Approach",
     manifesto:
-      "From IT master plans to Kubernetes clusters, I design systems that teams can operate and the business can understand. I take products all the way to production, and I lead the projects that make them possible",
+      "I bridge strategy and engineering: from IT master plans to Kubernetes deployments, I build reliable systems that are simple to run and clear to the people who use them. My goal: every product reaches production, and stays there",
     featured: {
       label: "In production",
       title: "Shipped products",
