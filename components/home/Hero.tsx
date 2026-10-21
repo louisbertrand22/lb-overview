@@ -51,7 +51,8 @@ export default function Hero({ locale, dict }: { locale: Locale; dict: Dictionar
           labels={{
             title: dict.hero.mapTitle,
             hint: dict.hero.mapHint,
-            dependency: dict.hero.dependency,
+            auth: dict.hero.mapAuth,
+            host: dict.hero.mapHost,
           }}
         />
       </Reveal>

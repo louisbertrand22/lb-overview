@@ -3,6 +3,7 @@ import type { Architecture } from "./architecture/types";
 import { magiccardsArchitecture } from "./architecture/magiccards";
 import { myssoArchitecture } from "./architecture/mysso";
 import { sudokuOcrArchitecture } from "./architecture/sudoku-ocr";
+import { arclArchitecture } from "./architecture/arcl";
 
 /**
  * Every entry is sourced from louis-bertrand.fr and the live products themselves (checked October 2026).
@@ -116,10 +117,12 @@ export const projects: Project[] = [
     site: "https://magic-cards.fr",
     privateCode: true,
     shots: [
-      shot("/work/magiccards_home.jpg", 1451, 907, "Page d'accueil de MagicCards : « Apprenez plus vite, oubliez moins »", 'MagicCards home page: "Learn faster, forget less"'),
-      shot("/work/magiccards_explore.jpg", 1451, 907, "Catalogue « Explorer les decks » de MagicCards avec filtres par langue et catégorie", 'MagicCards "Explore decks" catalog with language and category filters'),
-      shot("/work/magiccards_leitner.jpg", 1448, 905, "Page de MagicCards expliquant le système Leitner à 7 boîtes", "MagicCards page explaining the 7-box Leitner system"),
-      shot("/work/magiccards_download.jpg", 1450, 906, "Page d'installation de l'application mobile MagicCards", "MagicCards mobile app install page"),
+      { ...shot("/work/magiccards_m_home.png", 780, 1688, "Accueil mobile de MagicCards : « Apprenez plus vite, oubliez moins »", "MagicCards mobile home: “Learn faster, forget less”"), device: "phone" },
+      { ...shot("/work/magiccards_m_dashboard.png", 780, 1688, "Tableau de bord MagicCards sur mobile : révision Leitner, modes de jeu et classement entre amis", "MagicCards dashboard on mobile: Leitner review, game modes and friends leaderboard"), device: "phone" },
+      { ...shot("/work/magiccards_m_review.png", 780, 1688, "Révision sur mobile : carte retournée en boîte 5, boutons Raté et Réussi", "Mobile review: flipped card in box 5, Missed and Got it buttons"), device: "phone" },
+      { ...shot("/work/magiccards_m_decks.png", 780, 1688, "« Mes Decks » sur mobile : génération IA, import et cartes à réviser par deck", "“My decks” on mobile: AI generation, import and cards due per deck"), device: "phone" },
+      { ...shot("/work/magiccards_m_progress.png", 780, 1688, "Progression sur mobile : série, révisions à venir et activité de la semaine", "Progress on mobile: streak, upcoming reviews and weekly activity"), device: "phone" },
+      { ...shot("/work/magiccards_m_explore.png", 780, 1688, "Catalogue « Explorer les decks » sur mobile, avec filtres par langue et catégorie", "“Explore decks” catalog on mobile, with language and category filters"), device: "phone" },
     ],
   },
   {
@@ -327,20 +330,21 @@ export const projects: Project[] = [
     title: "Hybrid Cloud",
     world: "platform",
     tagline: {
-      fr: "Un cloud privé OpenStack résilient, étendu à la demande par AWS",
-      en: "A resilient OpenStack private cloud, extended on demand by AWS",
+      fr: "Les données sur un OpenStack privé, les applis sur AWS, un seul appel pour déployer les deux",
+      en: "Data on a private OpenStack, apps on AWS, one call to deploy both",
     },
     summary: {
-      fr: "Déploiement d'une infrastructure cloud privée résiliente sous OpenStack, étendue dynamiquement par des services PaaS publics AWS pour allier souveraineté et flexibilité. Automatisation complète du provisionnement des ressources de calcul et de la gestion du stockage distribué (Patroni) via des scripts Terraform en approche multi-provider.",
-      en: "Deployment of a resilient private cloud infrastructure on OpenStack, dynamically extended with public AWS PaaS services to combine data sovereignty with flexibility. Fully automated provisioning of compute resources and distributed storage management (Patroni) through multi-provider Terraform scripts.",
+      fr: "Un cloud privé OpenStack, déployé par Kolla-Ansible sur trois VM Google Cloud, porte les bases PostgreSQL en haute disponibilité avec Patroni. AWS expose les applications derrière un load balancer. Une gateway relie les deux : HAProxy envoie le SQL vers la primaire, et une API FastAPI déploie chaque application des deux côtés avec Terraform, en un appel.",
+      en: "An OpenStack private cloud, deployed with Kolla-Ansible on three Google Cloud VMs, holds the PostgreSQL databases, made highly available with Patroni. AWS exposes the applications behind a load balancer. A gateway links the two: HAProxy sends SQL to the primary, and a FastAPI service deploys each application on both sides with Terraform, in one call.",
     },
     highlights: {
-      fr: ["Cloud privé OpenStack étendu par des services PaaS AWS", "Stockage distribué haute disponibilité avec Patroni", "Provisionnement entièrement automatisé en Terraform multi-provider"],
-      en: ["OpenStack private cloud extended with AWS PaaS services", "Highly available distributed storage with Patroni", "Fully automated multi-provider Terraform provisioning"],
+      fr: ["OpenStack par Kolla-Ansible sur GCP, applis exposées sur AWS", "PostgreSQL en haute disponibilité : Patroni, etcd, HAProxy sur la primaire", "Terraform sur trois providers, piloté par une API de déploiement"],
+      en: ["OpenStack via Kolla-Ansible on GCP, apps exposed on AWS", "Highly available PostgreSQL: Patroni, etcd, HAProxy on the primary", "Terraform across three providers, driven by a deployment API"],
     },
     role: { fr: "Infrastructure et automatisation", en: "Infrastructure and automation" },
     context: { fr: "EPITA, majeure SIGL", en: "EPITA, SIGL major" },
-    stack: ["OpenStack", "AWS", "Azure", "Terraform", "Linux"],
+    stack: ["OpenStack", "Kolla-Ansible", "GCP", "AWS", "Terraform", "Patroni", "HAProxy", "WireGuard", "FastAPI"],
+    architecture: arclArchitecture,
   },
   {
     slug: "is-urbanisation",
@@ -597,21 +601,60 @@ export const stackLoop = [
 
 export type { Locale };
 
+type MapPlatform = { name: string; kind: string; role: Localized };
+
 /**
- * Hero diagram: the three lanes of the positioning statement, with real projects as nodes.
- * `edges` are actual runtime dependencies, not decoration.
+ * Hero diagram of what actually runs in production. Every wire is checkable:
+ * `auth` edges are live OIDC clients of MySSO, `host` edges come from response
+ * headers and the architecture docs. Platforms are not projects, so they carry their own copy.
  */
-export const systemMap = {
+export const systemMap: {
+  lanes: { id: string; label: Localized; nodes: string[] }[];
+  platforms: Record<string, MapPlatform>;
+  /** Hosting of nodes whose platforms are not drawn, to keep wires from crossing a lane */
+  hostedOn: Record<string, string>;
+  edges: { from: string; to: string; kind: "auth" | "host"; label: string }[];
+} = {
   lanes: [
-    { id: "business", label: { fr: "Besoins métier", en: "Business needs" }, nodes: ["hris-transformation", "it-master-plan", "is-urbanisation"] },
-    { id: "architecture", label: { fr: "Architecture", en: "Architecture" }, nodes: ["cloud-native-platform", "hybrid-cloud", "mysso"] },
-    { id: "delivery", label: { fr: "Équipes qui livrent", en: "Teams who deliver" }, nodes: ["magiccards", "quarto", "chickenstude"] },
+    { id: "identity", label: { fr: "Identité", en: "Identity" }, nodes: ["mysso"] },
+    { id: "products", label: { fr: "Produits en ligne", en: "Live products" }, nodes: ["magiccards", "quarto", "chickenstude", "sudoku-ocr"] },
+    { id: "platforms", label: { fr: "Hébergement et données", en: "Hosting and data" }, nodes: ["vercel", "firebase", "streamlit"] },
   ],
+  platforms: {
+    vercel: {
+      name: "Vercel",
+      kind: "PaaS",
+      role: {
+        fr: "Héberge MagicCards et Quarto, ainsi que le front de MySSO",
+        en: "Hosts MagicCards and Quarto, plus the MySSO frontend",
+      },
+    },
+    firebase: {
+      name: "Firebase",
+      kind: "BaaS",
+      role: {
+        fr: "Firestore pour MagicCards, Realtime Database pour Quarto, hébergement et données de ChickenStude",
+        en: "Firestore for MagicCards, Realtime Database for Quarto, hosting and data for ChickenStude",
+      },
+    },
+    streamlit: {
+      name: "Streamlit Community Cloud",
+      kind: "PaaS",
+      role: { fr: "Héberge la démo de Sudoku OCR", en: "Hosts the Sudoku OCR demo" },
+    },
+  },
+  hostedOn: { mysso: "Vercel · Render · Supabase" },
   edges: [
-    { from: "mysso", to: "magiccards", label: "OIDC · PKCE · dev/staging" },
-    { from: "mysso", to: "quarto", label: "OIDC · prod" },
+    { from: "mysso", to: "magiccards", kind: "auth", label: "OIDC · PKCE · dev/staging" },
+    { from: "mysso", to: "quarto", kind: "auth", label: "OIDC · prod" },
+    { from: "magiccards", to: "vercel", kind: "host", label: "Next.js" },
+    { from: "magiccards", to: "firebase", kind: "host", label: "Firestore" },
+    { from: "quarto", to: "vercel", kind: "host", label: "Vite" },
+    { from: "quarto", to: "firebase", kind: "host", label: "Realtime Database" },
+    { from: "chickenstude", to: "firebase", kind: "host", label: "Hosting" },
+    { from: "sudoku-ocr", to: "streamlit", kind: "host", label: "Streamlit" },
   ],
-} as const;
+};
 
 export const hobbies: { title: Localized; body: Localized }[] = [
   {
