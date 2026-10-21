@@ -4,6 +4,7 @@ import { magiccardsArchitecture } from "./architecture/magiccards";
 import { myssoArchitecture } from "./architecture/mysso";
 import { sudokuOcrArchitecture } from "./architecture/sudoku-ocr";
 import { arclArchitecture } from "./architecture/arcl";
+import { minishellArchitecture } from "./architecture/minishell";
 
 /**
  * Every entry is sourced from louis-bertrand.fr and the live products themselves (checked October 2026).
@@ -483,20 +484,21 @@ export const projects: Project[] = [
     title: "MiniShell Rust",
     world: "systems",
     tagline: {
-      fr: "Un shell Unix en Rust, pensé pour la sécurité mémoire",
-      en: "A Unix shell in Rust, built around memory safety",
+      fr: "Un shell Unix en Rust : lexer, parser et exécuteur écrits à la main",
+      en: "A Unix shell in Rust: handwritten lexer, parser and executor",
     },
     summary: {
-      fr: "Réimplémentation d'un shell Unix en Rust, avec pipes, redirections d'entrées/sorties, contrôle des jobs et commandes intégrées, développée en mettant l'accent sur la sécurité mémoire et une gestion d'erreurs idiomatique.",
-      en: "Unix shell reimplementation in Rust, featuring pipes, I/O redirections, job control and built-in commands, built with a focus on memory safety and idiomatic error handling.",
+      fr: "Shell Unix en cours d'écriture en Rust, sans aucune dépendance. Un lexer écrit à la main découpe la ligne en jetons, un parser à descente récursive construit un arbre de syntaxe, et un exécuteur le parcourt pour lancer les processus. Il exécute aujourd'hui les commandes simples, && et ||, et les blocs if / then / else ; pipes, redirections et boucles sont déjà reconnus par le lexer.",
+      en: "A Unix shell in progress, written in Rust with no dependencies. A handwritten lexer splits the line into tokens, a recursive-descent parser builds a syntax tree, and an executor walks it to start processes. It currently runs simple commands, && and ||, and if / then / else blocks; pipes, redirections and loops are already recognised by the lexer.",
     },
     highlights: {
-      fr: ["Pipes et redirections d'entrées/sorties", "Contrôle des jobs", "Gestion d'erreurs idiomatique en Rust"],
-      en: ["Pipes and I/O redirections", "Job control", "Idiomatic Rust error handling"],
+      fr: ["Lexer et parser à descente récursive écrits à la main", "AST en enum, parcouru par valeur", "Code de sortie converti en Result pour && et ||"],
+      en: ["Handwritten lexer and recursive-descent parser", "Enum-based AST, walked by value", "Exit status turned into a Result for && and ||"],
     },
     role: { fr: "Développement", en: "Development" },
     context: { fr: "Projet personnel", en: "Personal project" },
-    stack: ["Rust", "POSIX"],
+    stack: ["Rust", "std::process"],
+    architecture: minishellArchitecture,
     repo: "https://github.com/louisbertrand22/MiniShell_Rust",
   },
 ];
