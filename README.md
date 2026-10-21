@@ -24,7 +24,7 @@ npm run build
 
 | Path | Role |
 | --- | --- |
-| `content/projects.ts` | Single source of truth: 14 projects, worlds, system map, experience, hobbies, all copy in FR and EN |
+| `content/projects.ts` | Single source of truth: 15 projects, worlds, system map, experience, hobbies, all copy in FR and EN |
 | `lib/i18n.ts` | Locales and UI dictionary |
 | `proxy.ts` | Redirects locale-less URLs to `/fr` or `/en` |
 | `app/[lang]/` | Home, `/work` showcase, `/work/[slug]` detail template (all prerendered) |

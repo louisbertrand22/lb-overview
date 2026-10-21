@@ -5,6 +5,7 @@ import { myssoArchitecture } from "./architecture/mysso";
 import { sudokuOcrArchitecture } from "./architecture/sudoku-ocr";
 import { arclArchitecture } from "./architecture/arcl";
 import { minishellArchitecture } from "./architecture/minishell";
+import { minicodeArchitecture } from "./architecture/minicode";
 
 /**
  * Every entry is sourced from louis-bertrand.fr and the live products themselves (checked October 2026).
@@ -66,8 +67,8 @@ export const worlds: { id: WorldId; label: Localized; blurb: Localized }[] = [
     id: "systems",
     label: { fr: "Systèmes & Logiciel", en: "Systems & Software" },
     blurb: {
-      fr: "Shells, compilateur et backends écrits au plus près de la machine",
-      en: "Shells, a compiler and backends written close to the machine",
+      fr: "Shells, compilateur et agent de code, écrits à la main",
+      en: "Shells, a compiler and a coding agent, written by hand",
     },
   },
 ];
@@ -500,6 +501,41 @@ export const projects: Project[] = [
     stack: ["Rust", "std::process"],
     architecture: minishellArchitecture,
     repo: "https://github.com/louisbertrand22/MiniShell_Rust",
+  },
+  {
+    slug: "minicode",
+    code: "MCODE",
+    title: "minicode",
+    world: "systems",
+    tagline: {
+      fr: "Un agent de code dans le terminal, écrit à la main pour comprendre le harness",
+      en: "A coding agent in the terminal, handwritten to understand the harness",
+    },
+    summary: {
+      fr: "Un mini Claude Code en Python, sans framework d'agent. Tout le code autour du modèle est écrit à la main : la boucle d'agent, 8 outils dont des sessions interactives dans un pseudo-terminal, des permissions allow / deny, la gestion d'une fenêtre de 8 192 tokens, des sous-agents en lecture seule, un journal JSONL de chaque appel et 13 tâches d'évals. Il tourne en local et gratuitement avec Ollama et qwen3:8b, ou avec l'API Claude.",
+      en: "A mini Claude Code in Python, with no agent framework. All the code around the model is handwritten: the agent loop, 8 tools including interactive sessions in a pseudo-terminal, allow / deny permissions, handling of an 8,192-token window, read-only sub-agents, a JSONL log of every call and 13 eval tasks. It runs locally and for free with Ollama and qwen3:8b, or on the Claude API.",
+    },
+    highlights: {
+      fr: [
+        "Boucle d'agent, outils et permissions sans framework",
+        "Contexte géré par effacement puis résumé, sous-agents à historique vide",
+        "Évals de 5/10 à 11/13 avec qwen3:8b, en rendant le harness générique",
+      ],
+      en: [
+        "Agent loop, tools and permissions with no framework",
+        "Context managed by clearing then summarising, sub-agents with an empty history",
+        "Evals from 5/10 to 11/13 with qwen3:8b, by making the harness generic",
+      ],
+    },
+    role: { fr: "Développement", en: "Development" },
+    context: { fr: "Projet personnel", en: "Personal project" },
+    stack: ["Python", "Anthropic SDK", "Ollama", "rich", "prompt_toolkit"],
+    stat: {
+      value: { fr: "11/13", en: "11/13" },
+      label: { fr: "tâches d'évals réussies en local par qwen3:8b", en: "eval tasks passed locally by qwen3:8b" },
+    },
+    architecture: minicodeArchitecture,
+    repo: "https://github.com/louisbertrand22/minicode",
   },
 ];
 

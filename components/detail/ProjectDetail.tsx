@@ -20,6 +20,7 @@ export default async function ProjectDetail({ params }: Pick<PageProps<"/[lang]/
   const next = nextProject(slug);
   const cover = project.shots?.[0];
   const hasLinks = Boolean(project.site || project.repo || project.privateCode);
+  const longestWord = Math.max(...project.title.split(" ").map((word) => word.length));
 
   return (
     <article className="pt-28 md:pt-32">
@@ -34,9 +35,15 @@ export default async function ProjectDetail({ params }: Pick<PageProps<"/[lang]/
         </nav>
 
         <div className="mt-8 grid gap-10 border-t-2 border-ink pt-6 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-7">
+          <div className="[container-type:inline-size] lg:col-span-7">
             <p className="label">{t(world.label, lang)}</p>
-            <h1 className="display mt-4 text-[clamp(2.75rem,8.5vw,8rem)] [overflow-wrap:anywhere]">{project.title}</h1>
+            {/* Capped so the longest word fits the column: one display glyph is about 0.9em wide */}
+            <h1
+              className="display mt-4 [overflow-wrap:anywhere]"
+              style={{ fontSize: `min(clamp(2.75rem, 8.5vw, 8rem), calc(100cqi / ${longestWord * 0.9}))` }}
+            >
+              {project.title}
+            </h1>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-[30ch] text-[clamp(1.25rem,2.2vw,1.85rem)] font-medium leading-[1.2]">
                 {t(project.tagline, lang)}
