@@ -2,7 +2,9 @@
 
 import { motion } from "motion/react";
 import type { Locale } from "@/lib/i18n";
-import { FlowControls, PACKET_MS, pad, useFlowPlayer, type Flow, type FlowLabels } from "./FlowControls";
+import { useMemo } from "react";
+import { useEffect } from "react";
+import { FlowControls, PACKET_MS, pad, stepDurations, useFlowPlayer, type Flow, type FlowLabels } from "./FlowControls";
 
 /**
  * Sequence diagram that plays itself: each step lights up in turn, a packet travels along its arrow, and the
@@ -11,8 +13,17 @@ import { FlowControls, PACKET_MS, pad, useFlowPlayer, type Flow, type FlowLabels
  * Wide screens get lifelines and arrows, small screens a numbered list.
  */
 export default function SequenceFlow({ flow, locale, labels }: { flow: Flow; locale: Locale; labels: FlowLabels }) {
-  const player = useFlowPlayer(flow.steps.length);
-  const { root, reduce, active } = player;
+  const durations = useMemo(() => stepDurations(flow, locale), [flow, locale]);
+  const player = useFlowPlayer(durations);
+  const { root, reduce, active, follow } = player;
+
+  // When the visitor drives the diagram, keep the current step on screen
+  useEffect(() => {
+    if (active < 0) return;
+    const rows = [...(root.current?.querySelectorAll<HTMLElement>(`[data-step="${active}"]`) ?? [])];
+    follow(rows.find((r) => r.offsetParent !== null));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
   const steps = flow.steps;
   const current = active >= 0 ? steps[active] : null;
   const grid = { gridTemplateColumns: `2.25rem repeat(${flow.actors.length}, minmax(0, 1fr))` };
@@ -62,6 +73,7 @@ export default function SequenceFlow({ flow, locale, labels }: { flow: Flow; loc
               </span>,
               <div
                 key={`a${i}`}
+                data-step={i}
                 className={`relative h-11 transition-opacity duration-300 ${state === "todo" ? "opacity-40" : ""}`}
                 style={{ gridRow: row, gridColumn: `${lo + 2} / span ${span}` }}
               >
@@ -104,6 +116,7 @@ export default function SequenceFlow({ flow, locale, labels }: { flow: Flow; loc
           return (
             <li
               key={i}
+              data-step={i}
               className={`grid grid-cols-[2rem_1fr] gap-x-2 px-4 py-2.5 text-sm transition-[opacity,background-color] duration-300 ${
                 state === "on" ? "bg-paper-2 shadow-[inset_3px_0_0_var(--color-signal)]" : ""
               } ${state === "todo" ? "opacity-40" : ""}`}

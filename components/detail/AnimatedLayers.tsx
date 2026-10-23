@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import type { Anchor, Architecture } from "@/content/architecture/types";
 import type { Locale } from "@/lib/i18n";
-import { FlowControls, PACKET_MS, useFlowPlayer, type Flow, type FlowLabels } from "./FlowControls";
+import { FlowControls, PACKET_MS, stepDurations, useFlowPlayer, type Flow, type FlowLabels } from "./FlowControls";
 
 type Rect = { x: number; y: number; w: number; h: number };
 
 const nodeKey = (a: Anchor) => ("item" in a ? `item:${a.item}` : "layer" in a ? `layer:${a.layer}` : `service:${a.service}`);
 
 /**
- * Connector between two blocks, drawn behind the boxes so it reads as a wire running behind the diagram.
+ * Connector between two blocks.
  * Side by side: a straight line between the facing edges. Otherwise an S-curve from the nearer edge of one
  * box to the nearer edge of the other.
  */
@@ -37,7 +37,7 @@ type Layer = Architecture["layers"][number];
 /**
  * "Who talks to whom": the layered system diagram. When the flow comes with anchors, it plays the same steps as
  * the sequence diagram: the two blocks involved light up and a packet runs along a line between them, while
- * the connections already used stay as a faint trail. Without anchors it is the plain, static diagram.
+ * the connections already used stay as a faint trail behind the boxes. Without anchors it is the plain, static diagram.
  */
 export default function AnimatedLayers({
   layers,
@@ -58,8 +58,9 @@ export default function AnimatedLayers({
 }) {
   const anchors = flow?.anchors;
   const animated = Boolean(flow && anchors);
-  const player = useFlowPlayer(flow?.steps.length ?? 1);
-  const { root, reduce, active } = player;
+  const durations = useMemo(() => (flow ? stepDurations(flow, locale) : [1700]), [flow, locale]);
+  const player = useFlowPlayer(durations);
+  const { root, reduce, active, follow } = player;
   const box = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<SVGCircleElement>(null);
@@ -89,12 +90,28 @@ export default function AnimatedLayers({
     return () => ro.disconnect();
   }, [anchors]);
 
+  // The caption names the blocks of this diagram, which is not always what the sequence diagram calls its actors
+  const names = useMemo(
+    () =>
+      (anchors ?? []).map((a) =>
+        "item" in a ? a.item : "service" in a ? a.service : (layers.find((l) => l.id === a.layer)?.label[locale] ?? a.layer),
+      ),
+    [anchors, layers, locale],
+  );
+
   const step = flow && active >= 0 ? flow.steps[active] : null;
   const from = step && anchors ? nodeKey(anchors[step.from]) : null;
   const to = step && anchors ? nodeKey(anchors[step.to]) : null;
   const lit = (key: string) => key === from || key === to;
 
-  // Faint trail: every distinct connection already used, then the current one on top
+  // When the visitor drives the diagram, keep the block the packet is heading to on screen
+  useEffect(() => {
+    if (!to) return;
+    follow([...(box.current?.querySelectorAll<HTMLElement>("[data-node]") ?? [])].find((n) => n.dataset.node === to));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  // Faint trail: every distinct connection already used, then the current one in front
   const trail: { id: string; d: string }[] = [];
   let activeD: string | null = null;
   if (flow && anchors && active >= 0) {
@@ -140,31 +157,38 @@ export default function AnimatedLayers({
 
   return (
     <figure ref={root} className="border border-ink">
-      {animated && flow && <FlowControls flow={flow} locale={locale} labels={labels} player={player} />}
-      <div ref={box} className={`blueprint relative grid gap-6 p-4 md:p-6 ${services ? "lg:grid-cols-[1fr_16rem]" : ""}`}>
+      {animated && flow && <FlowControls flow={flow} locale={locale} labels={labels} player={player} names={names} title={flow.title[locale]} />}
+      <div ref={box} className={`blueprint relative isolate grid gap-6 p-4 md:p-6 ${services ? "lg:grid-cols-[1fr_16rem]" : ""}`}>
         {animated && size.w > 0 && (
-          <svg className="pointer-events-none absolute inset-0 z-0 hidden md:block" width={size.w} height={size.h} aria-hidden="true">
-            {trail.map((t) => (
-              <path key={t.id} d={t.d} fill="none" className="stroke-ink/25" strokeWidth={1} strokeDasharray="3 4" />
-            ))}
-            {activeD && (
-              <>
-                <motion.path
-                  key={`line-${active}`}
-                  ref={pathRef}
-                  d={activeD}
-                  fill="none"
-                  className="stroke-signal"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  initial={{ pathLength: reduce ? 1 : 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: PACKET_MS / 1000, ease: [0.45, 0, 0.25, 1] }}
-                />
-                {!reduce && <circle key={`dot-${active}`} ref={dotRef} r={5} className="fill-signal" style={{ opacity: 0 }} />}
-              </>
-            )}
-          </svg>
+          <>
+            {/* Connections already used: behind the boxes, as a faint trail */}
+            <svg className="pointer-events-none absolute inset-0 z-0 hidden md:block" width={size.w} height={size.h} aria-hidden="true">
+              {trail.map((t) => (
+                <path key={t.id} d={t.d} fill="none" className="stroke-ink/25" strokeWidth={1} strokeDasharray="3 4" />
+              ))}
+            </svg>
+            {/* The current exchange: in front, with a paper halo so it stays readable over text */}
+            <svg className="pointer-events-none absolute inset-0 z-30 hidden md:block" width={size.w} height={size.h} aria-hidden="true">
+              {activeD && (
+                <>
+                  <path d={activeD} fill="none" className="stroke-paper" strokeWidth={6} strokeLinecap="round" />
+                  <motion.path
+                    key={`line-${active}`}
+                    ref={pathRef}
+                    d={activeD}
+                    fill="none"
+                    className="stroke-signal"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    initial={{ pathLength: reduce ? 1 : 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: PACKET_MS / 1000, ease: [0.45, 0, 0.25, 1] }}
+                  />
+                  {!reduce && <circle key={`dot-${active}`} ref={dotRef} r={5} className="fill-signal stroke-paper" strokeWidth={2} style={{ opacity: 0 }} />}
+                </>
+              )}
+            </svg>
+          </>
         )}
 
         <div className={`relative ${rail ? "lg:pl-12" : ""}`}>
