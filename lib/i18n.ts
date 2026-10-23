@@ -16,7 +16,7 @@ const dictionaries = {
       description:
         "Produits, plateformes et missions de Louis Bertrand, élève ingénieur EPITA (SIGL) : MagicCards, MySSO, ChickenStude, Cloud Native Platform et plus.",
     },
-    nav: { home: "Accueil", work: "Projets", contact: "Contact", switchTo: "English", skip: "Aller au contenu" },
+    nav: { home: "Accueil", work: "Projets", services: "Services", contact: "Contact", switchTo: "English", skip: "Aller au contenu" },
     hero: {
       kicker: "Chef de projet IT · Architecte SI",
       statement: "Je relie besoins métier, choix d'architecture et équipes qui livrent",
@@ -98,7 +98,7 @@ const dictionaries = {
       description:
         "Products, platforms and engagements by Louis Bertrand, EPITA engineering student (SIGL): MagicCards, MySSO, ChickenStude, Cloud Native Platform and more.",
     },
-    nav: { home: "Home", work: "Work", contact: "Contact", switchTo: "Français", skip: "Skip to content" },
+    nav: { home: "Home", work: "Work", services: "Services", contact: "Contact", switchTo: "Français", skip: "Skip to content" },
     hero: {
       kicker: "IT Project Manager · IS Architect",
       statement: "I connect business needs, architecture decisions and the teams who deliver them",

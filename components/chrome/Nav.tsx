@@ -5,7 +5,7 @@ import LocaleSwitch from "./LocaleSwitch";
 export default function Nav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <header className="gutter fixed inset-x-0 top-0 z-50 border-b rule bg-paper/85 backdrop-blur-md">
-      <div className="flex h-16 items-center justify-between gap-6">
+      <div className="flex h-16 items-center justify-between gap-3 sm:gap-6">
         <Link href={`/${locale}`} className="flex items-center gap-3" aria-label={dict.nav.home}>
           <span
             aria-hidden="true"
@@ -13,16 +13,21 @@ export default function Nav({ locale, dict }: { locale: Locale; dict: Dictionary
           >
             LB
           </span>
-          <span className="leading-tight">
+          <span className="leading-tight max-sm:hidden">
             <span className="block text-sm font-semibold">Louis Bertrand</span>
             <span className="block text-xs text-mute max-sm:hidden">{dict.hero.kicker}</span>
           </span>
         </Link>
         <nav aria-label="Primary">
-          <ul className="flex items-center gap-5 font-mono text-xs uppercase tracking-[0.08em] md:gap-8">
+          <ul className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.04em] sm:gap-5 sm:tracking-[0.08em] md:gap-8">
             <li>
               <Link href={`/${locale}/work`} className="link-line py-1">
                 {dict.nav.work}
+              </Link>
+            </li>
+            <li>
+              <Link href={`/${locale}/services`} className="link-line py-1">
+                {dict.nav.services}
               </Link>
             </li>
             <li>
@@ -30,7 +35,7 @@ export default function Nav({ locale, dict }: { locale: Locale; dict: Dictionary
                 {dict.nav.contact}
               </Link>
             </li>
-            <li className="border-l rule pl-5 md:pl-8">
+            <li className="border-l rule pl-3 sm:pl-5 md:pl-8">
               <LocaleSwitch locale={locale} label={dict.nav.switchTo} />
             </li>
           </ul>

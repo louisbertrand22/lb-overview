@@ -27,7 +27,8 @@ npm run build
 | `content/projects.ts` | Single source of truth: 15 projects, worlds, system map, experience, hobbies, all copy in FR and EN |
 | `lib/i18n.ts` | Locales and UI dictionary |
 | `proxy.ts` | Redirects locale-less URLs to `/fr` or `/en` |
-| `app/[lang]/` | Home, `/work` showcase, `/work/[slug]` detail template (all prerendered) |
+| `app/[lang]/` | Home, `/work` showcase, `/work/[slug]` detail template, `/services` (all prerendered) |
+| `content/services.ts` | Services page copy in FR and EN: offers, proofs linked to projects, method. No prices, each project is quoted |
 | `components/react-bits/` | React Bits components installed via `premium-frontend-skill`, adapted (each change is marked `Adapted:`) |
 | `.premium-frontend/` | Provenance manifest and licence for the React Bits sources |
 | `.claude/skills/premium-frontend-skill/` | The design skill, not committed: install it with `npx premium-frontend-skill@latest install --dest .claude/skills/premium-frontend-skill` |
@@ -50,7 +51,7 @@ requests, with the Node version from `.nvmrc`.
 | File | Output |
 | --- | --- |
 | `app/[lang]/layout.tsx` and each page's `generateMetadata` | Title, description, canonical, hreflang (`fr`, `en`, `x-default`), Open Graph |
-| `app/**/opengraph-image.tsx` + `lib/og.tsx` | 1200 × 630 share cards for home, `/work` and every project, prerendered with the fonts in `assets/fonts/` |
+| `app/**/opengraph-image.tsx` + `lib/og.tsx` | 1200 × 630 share cards for home, `/work`, `/services` and every project, prerendered with the fonts in `assets/fonts/` |
 | `components/seo/JsonLd.tsx` | schema.org `Person` + `WebSite` on home, `SoftwareSourceCode`/`CreativeWork` + `BreadcrumbList` on projects |
 | `app/sitemap.ts`, `app/robots.ts` | `/sitemap.xml` with language alternates, `/robots.txt` |
 | `app/manifest.ts` | `/manifest.webmanifest` |

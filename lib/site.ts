@@ -9,6 +9,9 @@ export const siteUrl = process.env.SITE_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000";
 
+/** Shown on the page for people to write to; deliberately kept out of structured data */
+export const contactEmail = "louisbert91@gmail.com";
+
 export const author = {
   name: "Louis Bertrand",
   url: "https://louis-bertrand.fr",

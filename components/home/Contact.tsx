@@ -1,7 +1,6 @@
 import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/lib/i18n";
-
-const email = "louisbert91@gmail.com";
+import { contactEmail as email } from "@/lib/site";
 
 export default function Contact({ dict }: { dict: Dictionary }) {
   return (
