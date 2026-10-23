@@ -36,8 +36,14 @@ export default function Hero({ locale, dict }: { locale: Locale; dict: Dictionar
               {dict.hero.cta} <span aria-hidden="true">→</span>
             </Link>
             <Link
+              href={`/${locale}/services`}
+              className="inline-flex items-center gap-3 border border-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-signal hover:text-signal"
+            >
+              {dict.hero.services} <span aria-hidden="true">→</span>
+            </Link>
+            <Link
               href={`/${locale}#contact`}
-              className="inline-flex items-center border border-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-signal hover:text-signal"
+              className="link-line inline-flex items-center py-3 font-mono text-xs uppercase tracking-[0.08em]"
             >
               {dict.hero.contact}
             </Link>
