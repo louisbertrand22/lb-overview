@@ -101,6 +101,7 @@ export const minishellArchitecture: Architecture = {
   flow: {
     title: { fr: "Exemple · echo hi | cat", en: "Example · echo hi | cat" },
     actors: ["main", "Lexer", "Parser", "Executor", "OS"],
+    anchors: [{ item: "main.rs" }, { item: "lexer.rs" }, { item: "parser.rs" }, { item: "executor.rs" }, { layer: "os" }],
     steps: [
       { from: 0, to: 2, label: { fr: "parse()", en: "parse()" } },
       { from: 2, to: 1, label: { fr: "next_token() × 5", en: "next_token() × 5" } },

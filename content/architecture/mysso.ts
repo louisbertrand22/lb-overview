@@ -101,6 +101,7 @@ export const myssoArchitecture: Architecture = {
   flow: {
     title: { fr: "Flux OpenID Connect · code d'autorisation + PKCE", en: "OpenID Connect flow · authorization code + PKCE" },
     actors: ["App cliente", "Navigateur", "Frontend", "Backend", "PostgreSQL"],
+    anchors: [{ item: "Applis clientes OIDC" }, { item: "Navigateur" }, { item: "Frontend MySSO" }, { item: "authRoutes" }, { item: "PostgreSQL" }],
     steps: [
       { from: 0, to: 1, label: { fr: "Redirige vers /authorize", en: "Redirects to /authorize" } },
       { from: 1, to: 3, label: { fr: "GET /authorize · client_id, state, nonce, code_challenge", en: "GET /authorize · client_id, state, nonce, code_challenge" } },

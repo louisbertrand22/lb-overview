@@ -106,6 +106,7 @@ export const minicodeArchitecture: Architecture = {
   flow: {
     title: { fr: "Exemple · « lance les tests ; si un test échoue, corrige »", en: "Example · “run the tests; if one fails, fix it”" },
     actors: ["UI", "Harness", "LLM", "Tools"],
+    anchors: [{ item: "ui.py" }, { item: "minicode.py" }, { service: "Ollama · qwen3:8b" }, { item: "tools.py" }],
     steps: [
       { from: 0, to: 1, label: { fr: "demande", en: "request" } },
       { from: 1, to: 2, label: { fr: "stream(messages)", en: "stream(messages)" } },

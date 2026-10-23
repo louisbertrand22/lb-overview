@@ -14,6 +14,9 @@ export type ArchTable = {
   note?: Localized;
 };
 
+/** Where a flow actor sits in the layered diagram: an item by name, a whole layer by id, or an external service by name */
+export type Anchor = { item: string } | { layer: string } | { service: string };
+
 /** Technical case study attached to a project, rendered by components/detail/Architecture.tsx */
 export type Architecture = {
   /** `url` only when the source document is public */
@@ -28,7 +31,14 @@ export type Architecture = {
   services?: Item[];
   principles: { title: Localized; body: Localized }[];
   /** Numbered sequence, e.g. a protocol exchange */
-  flow?: { title: Localized; actors: string[]; steps: { from: number; to: number; label: Localized }[]; note: Localized };
+  flow?: {
+    title: Localized;
+    actors: string[];
+    /** Same order as `actors`; when present, the layered diagram animates each exchange between these blocks */
+    anchors?: Anchor[];
+    steps: { from: number; to: number; label: Localized }[];
+    note: Localized;
+  };
   /** Linear processing chain, shown as numbered cards; `outcomes` are the branches after the last step */
   steps?: {
     title: Localized;

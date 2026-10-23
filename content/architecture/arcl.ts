@@ -110,6 +110,7 @@ export const arclArchitecture: Architecture = {
   flow: {
     title: { fr: "Déployer une appli · POST /deploy-app", en: "Deploying an app · POST /deploy-app" },
     actors: ["Opérateur", "API CMP", "deploy.sh", "OpenStack", "Patroni", "HAProxy", "AWS"],
+    anchors: [{ item: "Opérateur" }, { item: "API CMP" }, { item: "API CMP" }, { layer: "openstack" }, { item: "Paire Patroni" }, { item: "HAProxy" }, { layer: "aws" }],
     steps: [
       { from: 0, to: 1, label: { fr: "POST /create-app", en: "POST /create-app" } },
       { from: 1, to: 2, label: { fr: "Copie du template, tfvars, init", en: "Template copy, tfvars, init" } },

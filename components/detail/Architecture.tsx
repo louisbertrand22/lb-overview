@@ -1,4 +1,5 @@
 import Reveal from "@/components/motion/Reveal";
+import AnimatedLayers from "@/components/detail/AnimatedLayers";
 import SequenceFlow from "@/components/detail/SequenceFlow";
 import type { ArchTable, Architecture as ArchitectureData, Cell } from "@/content/architecture/types";
 import { t } from "@/content/projects";
@@ -60,8 +61,15 @@ function DataTable({ table, locale }: { table: ArchTable; locale: Locale }) {
 /** Technical case study: figures, layered system diagram, principles, flows, tables, delivery and inventory. */
 export default function Architecture({ data, locale, dict }: { data: ArchitectureData; locale: Locale; dict: Dictionary }) {
   const a = dict.arch;
-  const itemCols = (count: number) =>
-    count === 2 ? "sm:grid-cols-2" : count === 4 ? "sm:grid-cols-2 xl:grid-cols-4" : "sm:grid-cols-3";
+  const flowLabels = {
+    controls: a.flowControls,
+    play: a.flowPlay,
+    pause: a.flowPause,
+    replay: a.flowReplay,
+    previous: a.flowPrevious,
+    next: a.flowNext,
+    count: a.flowCount,
+  };
 
   return (
     <section id="architecture" className="gutter scroll-mt-20 pb-[clamp(4rem,12vh,8rem)]" aria-labelledby="arch-title">
@@ -102,70 +110,15 @@ export default function Architecture({ data, locale, dict }: { data: Architectur
       {/* System diagram */}
       <div className="mt-16">
         <SubHeading>{a.diagram}</SubHeading>
-        <figure className="border border-ink">
-          <div className={`blueprint grid gap-6 p-4 md:p-6 ${data.services ? "lg:grid-cols-[1fr_16rem]" : ""}`}>
-            <div className={`relative ${data.rail ? "lg:pl-12" : ""}`}>
-              {data.rail && (
-                <div className="absolute bottom-10 left-3 top-10 hidden w-0.5 bg-signal lg:block" aria-hidden="true">
-                  <span className="absolute -left-[3px] top-0 size-2 rounded-full bg-signal" />
-                  <span className="absolute -left-[3px] bottom-0 size-2 rounded-full bg-signal" />
-                  <span className="absolute left-2 top-1/2 -translate-y-1/2 rotate-180 whitespace-nowrap bg-paper px-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-signal [writing-mode:vertical-rl]">
-                    {a.direct} · {data.rail.label}
-                  </span>
-                </div>
-              )}
-              <ol className="flex flex-col">
-                {data.layers.map((layer) => (
-                  <li key={layer.id}>
-                    <div className="grid gap-3 md:grid-cols-[9rem_1fr] md:items-stretch">
-                      <p className="flex flex-col justify-center font-mono text-xs uppercase tracking-[0.08em] text-ink">
-                        {t(layer.label, locale)}
-                      </p>
-                      <ul
-                        className={`grid gap-2 ${itemCols(layer.items.length)} ${
-                          layer.host === "server" ? "border border-dashed border-ink/40 p-2" : ""
-                        }`}
-                      >
-                        {layer.items.map((item) => (
-                          <li key={item.name} className="border border-ink bg-paper px-3 py-2.5">
-                            <p className="text-sm font-semibold">{item.name}</p>
-                            <p className="mt-1 text-xs leading-snug text-ink-soft">{t(item.detail, locale)}</p>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {layer.link && (
-                      <p className="flex items-center gap-2 py-2.5 font-mono text-[0.6875rem] text-mute md:pl-[9.75rem]">
-                        <span className="text-ink" aria-hidden="true">↓</span>
-                        {t(layer.link, locale)}
-                      </p>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            {data.services && (
-              <div className="border-t border-ink pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-                <p className="mb-3 font-mono text-xs uppercase tracking-[0.08em] text-ink">{a.services}</p>
-                <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
-                  {data.services.map((s) => (
-                    <li key={s.name} className="border border-rule bg-paper px-3 py-2">
-                      <p className="text-sm font-semibold">{s.name}</p>
-                      <p className="mt-0.5 text-xs text-ink-soft">{t(s.detail, locale)}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-          {data.rail && (
-            <figcaption className="flex items-start gap-3 border-t border-ink px-4 py-3 text-sm text-ink-soft">
-              <span className="mt-2 inline-block h-0.5 w-5 shrink-0 bg-signal" aria-hidden="true" />
-              {t(data.rail.caption, locale)}
-            </figcaption>
-          )}
-        </figure>
+        <AnimatedLayers
+          layers={data.layers}
+          services={data.services}
+          rail={data.rail}
+          flow={data.flow}
+          locale={locale}
+          labels={flowLabels}
+          texts={{ direct: a.direct, services: a.services }}
+        />
       </div>
 
       {/* Principles */}
@@ -224,15 +177,7 @@ export default function Architecture({ data, locale, dict }: { data: Architectur
           <SequenceFlow
             flow={data.flow}
             locale={locale}
-            labels={{
-              controls: a.flowControls,
-              play: a.flowPlay,
-              pause: a.flowPause,
-              replay: a.flowReplay,
-              previous: a.flowPrevious,
-              next: a.flowNext,
-              count: a.flowCount,
-            }}
+            labels={flowLabels}
           />
         </div>
       )}
