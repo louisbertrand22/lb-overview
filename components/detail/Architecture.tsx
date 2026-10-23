@@ -1,4 +1,5 @@
 import Reveal from "@/components/motion/Reveal";
+import SequenceFlow from "@/components/detail/SequenceFlow";
 import type { ArchTable, Architecture as ArchitectureData, Cell } from "@/content/architecture/types";
 import { t } from "@/content/projects";
 import type { Dictionary, Locale } from "@/lib/i18n";
@@ -52,78 +53,6 @@ function DataTable({ table, locale }: { table: ArchTable; locale: Locale }) {
         </table>
       </div>
       {table.note && <p className="mt-3 max-w-[80ch] text-sm leading-relaxed text-ink-soft">{t(table.note, locale)}</p>}
-    </div>
-  );
-}
-
-/** Sequence diagram on wide screens (lifelines and arrows), numbered list on small screens. */
-function SequenceFlow({ flow, locale }: { flow: NonNullable<ArchitectureData["flow"]>; locale: Locale }) {
-  const grid = { gridTemplateColumns: `2.25rem repeat(${flow.actors.length}, minmax(0, 1fr))` };
-  return (
-    <div>
-      <SubHeading>{t(flow.title, locale)}</SubHeading>
-      <div className="border border-ink">
-        <div className="relative hidden p-6 md:block">
-          <div className="pointer-events-none absolute inset-x-6 bottom-6 top-6 grid" style={grid} aria-hidden="true">
-            <span />
-            {flow.actors.map((a) => (
-              <span key={a} className="mx-auto h-full w-px border-l border-dashed border-ink/30" />
-            ))}
-          </div>
-          <div className="relative grid" style={grid}>
-            {flow.actors.map((a, i) => (
-              <span
-                key={a}
-                className="mx-1 mb-3 border border-ink bg-ink px-2 py-2 text-center font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-paper"
-                style={{ gridRow: 1, gridColumn: i + 2 }}
-              >
-                {a}
-              </span>
-            ))}
-            {flow.steps.map((s, i) => {
-              const lo = Math.min(s.from, s.to);
-              const span = Math.abs(s.to - s.from) + 1;
-              const inset = `calc(100% / ${span * 2})`;
-              const rightward = s.to > s.from;
-              const row = i + 2;
-              return [
-                <span key={`n${i}`} className="self-end pb-0.5 font-mono text-[0.6875rem] text-signal" style={{ gridRow: row, gridColumn: 1 }}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>,
-                <div key={`a${i}`} className="relative h-11" style={{ gridRow: row, gridColumn: `${lo + 2} / span ${span}` }}>
-                  <div className="absolute bottom-1.5" style={{ left: inset, right: inset }}>
-                    <p className="mb-1 truncate px-2 text-center text-xs text-ink" title={t(s.label, locale)}>
-                      {t(s.label, locale)}
-                    </p>
-                    <div className="relative h-px bg-ink">
-                      <span
-                        className={`absolute -top-[4px] size-0 border-y-[4.5px] border-y-transparent ${
-                          rightward ? "right-0 border-l-[7px] border-l-ink" : "left-0 border-r-[7px] border-r-ink"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>,
-              ];
-            })}
-          </div>
-        </div>
-
-        <ol className="divide-y divide-rule md:hidden">
-          {flow.steps.map((s, i) => (
-            <li key={i} className="grid grid-cols-[2rem_1fr] gap-x-2 px-4 py-2.5 text-sm">
-              <span className="font-mono text-xs text-signal">{String(i + 1).padStart(2, "0")}</span>
-              <span>
-                <span className="block font-mono text-[0.625rem] uppercase tracking-[0.06em] text-mute">
-                  {flow.actors[s.from]} → {flow.actors[s.to]}
-                </span>
-                {t(s.label, locale)}
-              </span>
-            </li>
-          ))}
-        </ol>
-        <p className="border-t border-ink px-4 py-3 text-sm leading-relaxed text-ink-soft">{t(flow.note, locale)}</p>
-      </div>
     </div>
   );
 }
@@ -291,7 +220,20 @@ export default function Architecture({ data, locale, dict }: { data: Architectur
 
       {data.flow && (
         <div className="mt-16">
-          <SequenceFlow flow={data.flow} locale={locale} />
+          <SubHeading>{t(data.flow.title, locale)}</SubHeading>
+          <SequenceFlow
+            flow={data.flow}
+            locale={locale}
+            labels={{
+              controls: a.flowControls,
+              play: a.flowPlay,
+              pause: a.flowPause,
+              replay: a.flowReplay,
+              previous: a.flowPrevious,
+              next: a.flowNext,
+              count: a.flowCount,
+            }}
+          />
         </div>
       )}
 
