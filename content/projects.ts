@@ -294,6 +294,47 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "cortex",
+    code: "CRTX",
+    title: "Cortex",
+    world: "products",
+    tagline: {
+      fr: "Mes cours EPITA transformés en pages de révision visuelles et interactives",
+      en: "My EPITA courses turned into visual, interactive revision pages",
+    },
+    summary: {
+      fr: "Plateforme de révision 100 % statique sur cortex.louis-bertrand.fr : mes cours EPITA SIGL réécrits en pages visuelles, enrichies et interactives. Chaque leçon suit le support du cours, et tout ce qui vient d'ailleurs (état de l'art, bonnes pratiques, retour terrain) est isolé dans des encadrés « Deep dive » qui citent leurs sources. Diagrammes Mermaid, visualisations animées en React, quiz et « 5 choses à retenir » par séance, recherche plein texte générée au build et installation en PWA. Deux matières en ligne : Architecture AI Driven (S9) et « L'IA expliquée de zéro », un cours écrit pour un lycéen de seconde.",
+      en: "A 100% static revision platform at cortex.louis-bertrand.fr: my EPITA SIGL courses rewritten as visual, enriched and interactive pages. Each lesson follows the course material, and anything from elsewhere (state of the art, best practices, field experience) sits in separate “Deep dive” boxes that cite their sources. Mermaid diagrams, animated React visualisations, quizzes and “5 things to remember” for each session, full-text search built at compile time and PWA install. Two subjects online: AI Driven Architecture (S9) and “AI explained from scratch”, a course written for a 15-year-old high school student.",
+    },
+    highlights: {
+      fr: [
+        "Site 100 % statique : Astro et MDX, aucune dépendance réseau à l'exécution",
+        "Contenu du cours et enrichissements séparés visuellement, sources citées",
+        "15 visualisations interactives en React et motion : tokenizer, température, fenêtre de contexte, embeddings, chunking RAG…",
+        "Diagrammes Mermaid qui suivent le thème clair ou sombre",
+        "Recherche plein texte Pagefind, index généré au build",
+        "PWA installable, service worker hors ligne, SEO avec JSON-LD par leçon",
+      ],
+      en: [
+        "100% static site: Astro and MDX, no network dependency at runtime",
+        "Course content and enrichments visually separated, sources cited",
+        "15 interactive React and motion visualisations: tokenizer, temperature, context window, embeddings, RAG chunking…",
+        "Mermaid diagrams that follow the light or dark theme",
+        "Pagefind full-text search, index built at compile time",
+        "Installable PWA, offline service worker, SEO with JSON-LD per lesson",
+      ],
+    },
+    role: { fr: "Conception, développement et rédaction", en: "Design, development and writing" },
+    context: { fr: "Projet personnel en ligne", en: "Live personal project" },
+    stack: ["Astro 7", "MDX", "React 19", "Tailwind CSS 4", "Mermaid", "Pagefind", "Vercel"],
+    stat: {
+      value: { fr: "6", en: "6" },
+      label: { fr: "leçons en ligne sur 2 matières", en: "lessons online across 2 subjects" },
+    },
+    site: "https://cortex.louis-bertrand.fr",
+    repo: "https://github.com/louisbertrand22/Cortex",
+  },
+  {
     slug: "cloud-native-platform",
     code: "CNP",
     title: "Cloud Native Platform",
