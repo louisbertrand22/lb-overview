@@ -32,8 +32,8 @@ export default async function WorkPage({ params }: PageProps<"/[lang]/work">) {
   return (
     <div className="gutter pb-[clamp(5rem,14vh,9rem)] pt-28 md:pt-36">
       <header className="grid gap-8 border-t-2 border-ink pb-10 pt-6 md:grid-cols-12">
-        <h1 className="display text-[clamp(3.5rem,13vw,12rem)] md:col-span-8">{dict.work.title}</h1>
-        <Reveal className="self-end md:col-span-4" delay={0.15}>
+        <h1 className="display text-[clamp(3.5rem,13vw,12rem)] md:col-span-12">{dict.work.title}</h1>
+        <Reveal className="md:col-span-5 md:col-start-8" delay={0.15}>
           <p className="max-w-[40ch] text-lg leading-snug text-ink-soft">{dict.work.intro}</p>
         </Reveal>
       </header>

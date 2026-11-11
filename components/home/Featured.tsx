@@ -35,22 +35,22 @@ function Stack({ p }: { p: Item }) {
   );
 }
 
-function Actions({ p, locale, dict }: { p: Item; locale: Locale; dict: Dictionary }) {
+function Actions({ p, locale, dict, pin }: { p: Item; locale: Locale; dict: Dictionary; pin?: boolean }) {
   return (
-    <div className="mt-auto flex flex-wrap gap-3 pt-8">
+    <div className={`flex flex-wrap gap-3 pt-8 ${pin ? "mt-auto" : ""}`}>
       {p.site && (
         <a
           href={p.site}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-paper px-4 py-2.5 font-mono text-xs uppercase tracking-[0.08em] text-ink transition-colors hover:bg-signal hover:text-paper"
+          className="btn btn-sm btn-paper"
         >
           {dict.featured.visit} <span aria-hidden="true">↗</span>
         </a>
       )}
       <Link
         href={`/${locale}/work/${p.slug}`}
-        className="inline-flex items-center gap-2 border border-night-rule px-4 py-2.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-paper"
+        className="btn btn-sm btn-ghost-night"
       >
         {dict.featured.details} <span aria-hidden="true">→</span>
       </Link>
@@ -76,7 +76,7 @@ export default function Featured({ locale, dict }: { locale: Locale; dict: Dicti
       <ol className="gutter mt-[clamp(3rem,9vh,6rem)]">
         {items.slice(0, LEAD).map((p) => (
           <li key={p.slug} className="grid gap-8 border-t border-night-rule py-10 md:grid-cols-12 md:gap-x-8 md:py-14">
-            <Reveal className="flex flex-col md:col-span-5">
+            <Reveal className="flex flex-col md:sticky md:top-28 md:col-span-5 md:self-start">
               <Live p={p} dict={dict} />
               <h3 className="display mt-5 text-[clamp(2rem,3.5vw,3.6rem)] text-paper [overflow-wrap:anywhere]">{p.title}</h3>
               <p className="mt-4 max-w-[38ch] text-lg leading-snug text-night-text/85">{t(p.tagline, locale)}</p>
@@ -101,7 +101,7 @@ export default function Featured({ locale, dict }: { locale: Locale; dict: Dicti
               <h3 className="display mt-4 text-[clamp(1.75rem,2.6vw,2.6rem)] text-paper [overflow-wrap:anywhere]">{p.title}</h3>
               <p className="mt-3 max-w-[38ch] text-lg leading-snug text-night-text/85">{t(p.tagline, locale)}</p>
               <Stack p={p} />
-              <Actions p={p} locale={locale} dict={dict} />
+              <Actions p={p} locale={locale} dict={dict} pin />
             </Reveal>
           </li>
         ))}

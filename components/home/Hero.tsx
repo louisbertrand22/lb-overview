@@ -31,13 +31,13 @@ export default function Hero({ locale, dict }: { locale: Locale; dict: Dictionar
           <div className="flex flex-wrap gap-3">
             <Link
               href={`/${locale}/work`}
-              className="inline-flex items-center gap-3 bg-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] text-paper transition-colors hover:bg-signal"
+              className="btn btn-solid"
             >
               {dict.hero.cta} <span aria-hidden="true">→</span>
             </Link>
             <Link
               href={`/${locale}/services`}
-              className="inline-flex items-center gap-3 border border-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-signal hover:text-signal"
+              className="btn btn-ghost"
             >
               {dict.hero.services} <span aria-hidden="true">→</span>
             </Link>

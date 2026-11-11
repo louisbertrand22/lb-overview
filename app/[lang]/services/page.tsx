@@ -140,13 +140,13 @@ export default async function ServicesPage({ params }: PageProps<"/[lang]/servic
               <div className="mt-10 flex flex-wrap gap-3">
                 <a
                   href={mailto}
-                  className="inline-flex items-center gap-2 bg-paper px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] text-ink transition-colors hover:bg-signal hover:text-paper"
+                  className="btn btn-paper"
                 >
                   {t(copy.email, lang)} <span aria-hidden="true">↗</span>
                 </a>
                 <Link
                   href={`/${lang}/work`}
-                  className="inline-flex items-center gap-2 border border-night-rule px-5 py-3 font-mono text-xs uppercase tracking-[0.08em] transition-colors hover:border-paper"
+                  className="btn btn-ghost-night"
                 >
                   {t(copy.projects, lang)} <span aria-hidden="true">→</span>
                 </Link>

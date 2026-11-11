@@ -73,16 +73,18 @@ export default function WorkGrid({ locale }: { locale: Locale }) {
                 animate={{ opacity: 1 }}
                 exit={reduce ? undefined : { opacity: 0 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className={`border-b border-r rule bg-paper ${wide ? "md:col-span-2" : ""}`}
+                className={`row-span-3 grid grid-rows-subgrid border-b border-r rule bg-paper ${wide ? "md:col-span-2" : ""}`}
               >
-                <Link href={`/${locale}/work/${p.slug}`} className="group flex h-full flex-col p-4 transition-colors hover:bg-paper-2 md:p-5">
+                <Link href={`/${locale}/work/${p.slug}`} className="group row-span-3 grid grid-rows-subgrid p-4 transition-colors hover:bg-paper-2 md:p-5">
                   <div className="flex items-baseline justify-between gap-4 font-mono text-xs uppercase tracking-[0.08em]">
                     <span className="text-signal">{p.code}</span>
                     <span className="text-mute">{worldLabel}</span>
                   </div>
-                  <div className="relative mt-4 aspect-[16/10] overflow-hidden border rule">
+                  {/* Cards share three row tracks (header, visual, text): the sizer sets the minimum height, the track stretches the visual to match a wide neighbour */}
+                  <div className="relative mt-4 overflow-hidden border rule">
+                    <div aria-hidden="true" className={wide ? "aspect-[2/1]" : "aspect-[16/10]"} />
                     {shot && shot.device === "phone" ? (
-                      <div className="blueprint grid h-full place-items-center bg-paper-2">
+                      <div className="blueprint absolute inset-0 grid place-items-center bg-paper-2">
                         <div className="relative h-[86%] overflow-hidden rounded-[1.2rem] border-[5px] border-ink" style={{ aspectRatio: `${shot.width} / ${shot.height}` }}>
                           <Image src={shot.src} alt={shot.alt[locale]} fill sizes="20vw" className="object-cover object-top" />
                         </div>
@@ -100,12 +102,14 @@ export default function WorkGrid({ locale }: { locale: Locale }) {
                       <Cover project={p} worldLabel={worldLabel} className="absolute inset-0" />
                     )}
                   </div>
-                  <h2 className="heading mt-5 text-[clamp(1.4rem,2.2vw,2rem)] uppercase [font-stretch:125%]">{p.title}</h2>
-                  <p className="mt-2 max-w-[52ch] text-sm leading-snug text-ink-soft">{p.tagline[locale]}</p>
-                  <p className="mt-auto flex items-center justify-between pt-5 font-mono text-xs text-mute">
-                    <span>{p.stack.slice(0, 3).join(" · ")}</span>
-                    <span className="text-ink transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
-                  </p>
+                  <div className="flex flex-col">
+                    <h2 className="heading mt-5 text-[clamp(1.4rem,2.2vw,2rem)] uppercase [font-stretch:125%]">{p.title}</h2>
+                    <p className="mt-2 max-w-[52ch] text-sm leading-snug text-ink-soft">{p.tagline[locale]}</p>
+                    <p className="mt-auto flex items-center justify-between pt-5 font-mono text-xs text-mute">
+                      <span>{p.stack.slice(0, 3).join(" · ")}</span>
+                      <span className="text-ink transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+                    </p>
+                  </div>
                 </Link>
               </motion.li>
             );

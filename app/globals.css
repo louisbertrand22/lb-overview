@@ -55,6 +55,28 @@
     color: inherit;
     text-decoration: none;
   }
+
+  /* No single word stranded on the last line */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Fine paper grain, a barely visible veil under the nav: breaks the flat digital fill */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.2;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .04 0 0 0 0 .12 0 0 0 0 .2 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 }
 
 /* Lenis */
@@ -111,6 +133,64 @@ html.lenis body {
       linear-gradient(to right, color-mix(in srgb, var(--color-ink) 7%, transparent) 1px, transparent 1px),
       linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 7%, transparent) 1px, transparent 1px);
     background-size: 32px 32px;
+  }
+
+  /* Buttons: one shape, four skins, a physical press */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s,
+      transform 0.2s var(--ease-out-expo);
+  }
+  .btn:active {
+    transform: translateY(1px) scale(0.98);
+  }
+  .btn-sm {
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+  }
+  .btn-solid {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .btn-solid:hover {
+    background: var(--color-signal);
+  }
+  .btn-ghost {
+    border: 1px solid var(--color-ink);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-signal);
+    color: var(--color-signal);
+  }
+  .btn-paper {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  .btn-paper:hover {
+    background: var(--color-signal);
+    color: var(--color-paper);
+  }
+  .btn-ghost-night {
+    border: 1px solid var(--color-night-rule);
+  }
+  .btn-ghost-night:hover {
+    border-color: var(--color-paper);
+  }
+
+  /* Current page in the nav: the signal underline stays on */
+  .link-line[aria-current="page"] {
+    background-size: 100% 2px;
   }
 
   .link-line {

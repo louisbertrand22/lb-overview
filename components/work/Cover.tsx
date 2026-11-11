@@ -11,7 +11,11 @@ export default function Cover({ project, worldLabel, className = "" }: { project
         <span>{worldLabel}</span>
         <span>{project.stack[0]}</span>
       </div>
-      <p className="display text-[clamp(2.25rem,23cqw,8rem)] leading-[0.8] text-ink transition-colors duration-500 group-hover:text-signal">
+      {/* Long codes (MCODE) shrink so the plate never clips them */}
+      <p
+        className="display leading-[0.8] text-ink transition-colors duration-500 group-hover:text-signal"
+        style={{ fontSize: `clamp(2.25rem, min(23cqw, ${(82 / (project.code.length * 0.9)).toFixed(1)}cqw), 8rem)` }}
+      >
         {project.code}
       </p>
     </div>

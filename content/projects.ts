@@ -163,7 +163,7 @@ export const projects: Project[] = [
     site: "https://my-sso.louis-bertrand.fr",
     repo: "https://github.com/louisbertrand22/MySSO",
     shots: [
-      shot("/work/mysso_landingpage.png", 1393, 898, "Page d'accueil de MySSO, le système d'authentification unique", "MySSO single sign-on landing page"),
+      shot("/work/mysso_home.png", 2880, 1800, "Page d'accueil de MySSO, le système d'authentification unique", "MySSO single sign-on landing page"),
       shot("/work/consent.png", 772, 603, "Écran de consentement de MySSO : Quarto Game demande l'accès au compte (email, openid, profile)", "MySSO consent screen: Quarto Game requests access to the account (email, openid, profile)"),
       shot("/work/sso_1.png", 1496, 912, "Tableau de bord MySSO : informations utilisateur et sessions actives", "MySSO dashboard: user details and active sessions"),
       shot("/work/sso_2.png", 1476, 908, "Tableau de bord MySSO : applications autorisées et révocation des accès", "MySSO dashboard: authorized applications and access revocation"),
@@ -247,9 +247,9 @@ export const projects: Project[] = [
     site: "https://quarto.lucho-dev.xyz",
     repo: "https://github.com/louisbertrand22/Quarto",
     shots: [
-      shot("/work/quarto_board.png", 1440, 900, "Partie de Quarto contre l'IA : plateau 4×4 et pièces disponibles", "Quarto game against the AI: 4×4 board and available pieces"),
-      shot("/work/quarto_home.png", 1440, 900, "Accueil de Quarto : choix du mode de jeu", "Quarto home: choosing a game mode"),
-      shot("/work/quarto_sso.png", 1440, 900, "Page de connexion MySSO ouverte depuis le bouton Connexion de Quarto", "MySSO sign-in page opened from Quarto's sign-in button"),
+      shot("/work/quarto_partie.png", 2880, 1800, "Partie de Quarto contre l'IA : plateau en bois, réserve de pièces et liste des coups", "Quarto game against the AI: wooden board, piece reserve and move list"),
+      shot("/work/quarto_accueil.png", 2880, 1800, "Accueil de Quarto : « Tu choisis la pièce. L'adversaire la joue. » et accès aux modes de jeu", "Quarto home: \"You pick the piece. Your opponent plays it.\" and the game modes"),
+      shot("/work/quarto_connexion.png", 2880, 1800, "Page de connexion MySSO ouverte depuis le bouton Connexion de Quarto", "MySSO sign-in page opened from Quarto's sign-in button"),
     ],
   },
   {
