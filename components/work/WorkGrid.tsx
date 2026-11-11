@@ -16,6 +16,10 @@ export default function WorkGrid({ locale }: { locale: Locale }) {
   const [world, setWorld] = useState<WorldId | "all">("all");
   const reduce = useReducedMotion();
   const visible = world === "all" ? projects : projects.filter((p) => p.world === world);
+  // Last narrow card stretches over the columns the row would leave empty (3 columns from lg, 2 from md)
+  const units = visible.reduce((n, p) => n + (isWide(p) ? 2 : 1), 0);
+  const lgFree = (3 - (units % 3)) % 3;
+  const mdFree = units % 2;
   const filters: { id: WorldId | "all"; label: string; count: number }[] = [
     { id: "all", label: dict.work.all, count: projects.length },
     ...worlds.map((w) => ({ id: w.id, label: w.label[locale], count: projects.filter((p) => p.world === w.id).length })),
@@ -64,6 +68,18 @@ export default function WorkGrid({ locale }: { locale: Locale }) {
           {visible.map((p, i) => {
             const shot = p.shots?.[0];
             const wide = isWide(p);
+            const fill = i === visible.length - 1 && !wide;
+            const lgSpan = fill ? 1 + lgFree : 1;
+            const spanClass = wide
+              ? "md:col-span-2"
+              : fill
+                ? `${mdFree ? "md:col-span-2" : ""} ${lgSpan === 3 ? "lg:col-span-3" : lgSpan === 2 ? "lg:col-span-2" : mdFree ? "lg:col-span-1" : ""}`
+                : "";
+            const sizer = wide
+              ? "aspect-[2/1]"
+              : fill
+                ? `aspect-[16/10] ${mdFree ? "md:aspect-[2/1]" : ""} ${lgSpan === 3 ? "lg:aspect-[3/1]" : lgSpan === 2 ? "lg:aspect-[2/1]" : mdFree ? "lg:aspect-[16/10]" : ""}`
+                : "aspect-[16/10]";
             const worldLabel = worlds.find((w) => w.id === p.world)!.label[locale];
             return (
               <motion.li
@@ -73,7 +89,7 @@ export default function WorkGrid({ locale }: { locale: Locale }) {
                 animate={{ opacity: 1 }}
                 exit={reduce ? undefined : { opacity: 0 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className={`row-span-3 grid grid-rows-subgrid border-b border-r rule bg-paper ${wide ? "md:col-span-2" : ""}`}
+                className={`row-span-3 grid grid-rows-subgrid border-b border-r rule bg-paper ${spanClass}`}
               >
                 <Link href={`/${locale}/work/${p.slug}`} className="group row-span-3 grid grid-rows-subgrid p-4 transition-colors hover:bg-paper-2 md:p-5">
                   <div className="flex items-baseline justify-between gap-4 font-mono text-xs uppercase tracking-[0.08em]">
@@ -82,7 +98,7 @@ export default function WorkGrid({ locale }: { locale: Locale }) {
                   </div>
                   {/* Cards share three row tracks (header, visual, text): the sizer sets the minimum height, the track stretches the visual to match a wide neighbour */}
                   <div className="relative mt-4 overflow-hidden border rule">
-                    <div aria-hidden="true" className={wide ? "aspect-[2/1]" : "aspect-[16/10]"} />
+                    <div aria-hidden="true" className={sizer} />
                     {shot && shot.device === "phone" ? (
                       <div className="blueprint absolute inset-0 grid place-items-center bg-paper-2">
                         <div className="relative h-[86%] overflow-hidden rounded-[1.2rem] border-[5px] border-ink" style={{ aspectRatio: `${shot.width} / ${shot.height}` }}>

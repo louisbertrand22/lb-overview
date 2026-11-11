@@ -54,7 +54,7 @@ const dictionaries = {
     },
     work: {
       title: "Projets",
-      intro: "Quinze réalisations : produits en ligne, plateformes cloud, missions de conseil et logiciels système",
+      intro: "Produits en ligne, plateformes cloud, missions de conseil et logiciels système",
       filterLabel: "Filtrer par univers",
       all: "Tout",
       count: (n: number) => `${n} projet${n > 1 ? "s" : ""}`,
@@ -144,7 +144,7 @@ const dictionaries = {
     },
     work: {
       title: "Work",
-      intro: "Fifteen pieces: live products, cloud platforms, consulting engagements and systems software",
+      intro: "Live products, cloud platforms, consulting engagements and systems software",
       filterLabel: "Filter by world",
       all: "All",
       count: (n: number) => `${n} project${n > 1 ? "s" : ""}`,
